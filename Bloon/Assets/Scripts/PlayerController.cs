@@ -3,10 +3,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera Mcam;
+    private PlayerState playerState;
+    private AudioSource playerSource;
+
+    private float WaitTime;
 
     private void Awake()
     {
         Mcam = GetComponent<Camera>();
+        playerState = GetComponent<PlayerState>();
+        playerSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -22,7 +28,22 @@ public class PlayerController : MonoBehaviour
         {   
             if(Input.GetMouseButtonDown(0))
             {
-                Destroy(hit.transform.gameObject);
+                WaitTime += Time.deltaTime;
+                hit.collider.GetComponentInChildren<ParticleSystem>().Play();
+                hit.collider.GetComponent<SpriteRenderer>().enabled = false;
+                hit.collider.GetComponent<BoxCollider2D>().enabled = false;
+                playerState.Score_Count++;
+                playerSource.Play();
+                playerState.Score_txt.text = playerState.Score_Count.ToString();
+
+
+
+                if(WaitTime > 1)
+                {
+                    Destroy(hit.transform.gameObject);
+                    WaitTime = 0;
+                }
+                
             }   
             
         }

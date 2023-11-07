@@ -20,5 +20,24 @@ public class SpawnerBloons : MonoBehaviour
         Vector3 spawnPosition = new Vector3(randomX, YPosition, 0);
 
         GameObject cloud = Instantiate(Bloons[Random.Range(0, Bloons.Length)], spawnPosition, Quaternion.identity);
+
+        
+
+
+    
     }
+
+
+    public void KillEveryOne()
+    {
+        
+        GameObject[] clouds = GameObject.FindGameObjectsWithTag("Bloons");
+
+       
+        foreach (GameObject cloud in clouds)
+        {
+            Destroy(cloud);
+        }
+    }
+
 }
