@@ -1,14 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using YG;
 
 public class GameOverer : MonoBehaviour
 {
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private SpawnerBloons spawnerBloons;
+    [SerializeField] private SpawnerBloons spawnerBomb;
     [SerializeField] private GameObject PlayButton;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioSource BackgRound;
+
+    [SerializeField] private GameObject Setting;
+    private bool ONSetting = false;
     private float timera;
 
     private void Awake()
@@ -33,17 +38,23 @@ public class GameOverer : MonoBehaviour
     public void Save()
     {   
         GameOverPanel.SetActive(false);
-        spawnerBloons.KillEveryOne();
+        spawnerBloons.KillEveryOneNoCount();
         gameObject.GetComponent<BoxCollider2D>().enabled = true;
         BackgRound.Play();
 
 
     }
 
+    public void RewardOn()
+    {
+        YandexGame.RewVideoShow(0);
+    }
+
     public void Restart()
     {
         audioSource.Play();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        PlayerState.Score_Count = 0;
         
         
         timera += Time.deltaTime;
@@ -58,10 +69,28 @@ public class GameOverer : MonoBehaviour
     public void PlayGame()
     {
         spawnerBloons.enabled = true;
+        spawnerBomb.enabled = true;
         audioSource.Play();
         PlayButton.SetActive(false);
         
 
 
     }
+
+    public void SettingOnOff()
+    {
+        audioSource.Play();
+        if (!ONSetting)
+        {
+            ONSetting = true;
+            Setting.SetActive(true);
+        }
+        else
+        {
+            ONSetting = !ONSetting;
+            Setting.SetActive(false);
+        }
+    }
+
+   
 }

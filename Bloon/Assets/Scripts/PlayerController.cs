@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera Mcam;
     private PlayerState playerState;
     private AudioSource playerSource;
+    public SpawnerBloons spawnerBloons;
 
     private float WaitTime;
 
@@ -32,9 +33,9 @@ public class PlayerController : MonoBehaviour
                 hit.collider.GetComponentInChildren<ParticleSystem>().Play();
                 hit.collider.GetComponent<SpriteRenderer>().enabled = false;
                 hit.collider.GetComponent<BoxCollider2D>().enabled = false;
-                playerState.Score_Count++;
+                PlayerState.Score_Count++;
                 playerSource.Play();
-                playerState.Score_txt.text = playerState.Score_Count.ToString();
+                playerState.Score_txt.text = PlayerState.Score_Count.ToString();
 
 
 
@@ -46,6 +47,29 @@ public class PlayerController : MonoBehaviour
                 
             }   
             
+        }
+
+        if( hit.collider != null &&hit.collider.GetComponent<ControllerBomb>() != null)
+        {
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                spawnerBloons.KillEveryOne();
+                hit.collider.GetComponentInChildren<AudioSource>().Play();
+                hit.collider.GetComponent<SpriteRenderer>().enabled = false;
+                hit.collider.GetComponent<BoxCollider2D>().enabled = false;
+
+
+                float Waiter = 0;
+                Waiter += Time.deltaTime;
+                if (Waiter > 1f)
+                {
+                    Destroy(hit.transform.gameObject);
+                }
+            }
+            
+
+          
         }
     }
 }

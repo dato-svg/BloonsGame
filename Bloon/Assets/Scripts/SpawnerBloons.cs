@@ -8,10 +8,12 @@ public class SpawnerBloons : MonoBehaviour
     [SerializeField] private float MaxXposition;
     [SerializeField] private float YPosition;
     [SerializeField] private float DelaySpawn;
+    
+    
 
     private void Start()
     {
-        InvokeRepeating("SpawnCloud", 0, DelaySpawn);
+        InvokeRepeating("SpawnCloud", 5, DelaySpawn);
     }
 
     private void SpawnCloud()
@@ -36,8 +38,31 @@ public class SpawnerBloons : MonoBehaviour
        
         foreach (GameObject cloud in clouds)
         {
-            Destroy(cloud);
+            PlayerState.Score_Count++;
+            cloud.gameObject.GetComponentInChildren<ParticleSystem>().Play();
+            cloud.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            cloud.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            float Wai = 0;
+            Wai += Time.deltaTime;
+            if(Wai > 1)
+            {
+                Destroy(cloud);
+            }
+            
         }
     }
 
+
+    public void KillEveryOneNoCount()
+    {
+
+        GameObject[] clouds = GameObject.FindGameObjectsWithTag("Bloons");
+
+
+        foreach (GameObject cloud in clouds)
+        {
+           
+            Destroy(cloud);
+        }
+    }
 }
