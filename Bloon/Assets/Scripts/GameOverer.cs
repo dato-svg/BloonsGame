@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
-using YG;
 
 public class GameOverer : MonoBehaviour
 {
@@ -45,10 +43,7 @@ public class GameOverer : MonoBehaviour
 
     }
 
-    public void RewardOn()
-    {
-        YandexGame.RewVideoShow(0);
-    }
+   
 
     public void Restart()
     {
